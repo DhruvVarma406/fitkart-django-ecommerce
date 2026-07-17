@@ -42,5 +42,10 @@ path(
     views.add_review,
     name='add_review'
 ),
+path(
+    'thank-you/',
+    views.thank_you,
+    name='thank_you'
+),
 ]
 

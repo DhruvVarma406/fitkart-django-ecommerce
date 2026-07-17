@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow-lg border-0 text-center p-5">
+
+                <div class="mb-4">
+
+                    <h1 class="display-1 text-success">
+                        ✓
+                    </h1>
+
+                </div>
+
+                <h1 class="text-success fw-bold">
+                    Thank You For Your Order!
+                </h1>
+
+                <p class="lead mt-3">
+                    Your order has been placed successfully.
+                </p>
+
+                <p class="text-muted">
+                    We have received your order and will process it shortly.
+                </p>
+
+                <hr>
+
+                <div class="alert alert-info">
+
+                    Estimated Delivery:
+                    <strong>
+                        3 - 5 Business Days
+                    </strong>
+
+                </div>
+
+                <div class="mt-4">
+
+                    <a href="{% url 'home' %}"
+                       class="btn btn-primary btn-lg me-3">
+
+                        Continue Shopping
+
+                    </a>
+
+                    <a href="{% url 'my_orders' %}"
+                       class="btn btn-outline-dark btn-lg">
+
+                        View My Orders
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

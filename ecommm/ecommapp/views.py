@@ -1,7 +1,15 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login,logout
-from .models import Product,Order,OrderItem,UserProfile,Category,Review
+from .models import (
+    Product,
+    Order,
+    OrderItem,
+    UserProfile,
+    Category,
+    Review,
+    ShippingAddress
+)
 from django.contrib.auth.decorators import login_required
 def home(request):
 
@@ -269,20 +277,40 @@ def checkout(request):
         complete=False
     )
 
-    items = order.orderitem_set.all()
+    profile = UserProfile.objects.get(
+        user=request.user
+    )
 
-    for item in items:
+    # Only execute this when user clicks Place Order
+    if request.method == "POST":
 
-        if item.product.stock >= item.quantity:
+        ShippingAddress.objects.create(
+            user=request.user,
+            order=order,
+            full_name=request.POST['full_name'],
+            phone=request.POST['phone'],
+            address=request.POST['address'],
+            city=request.POST['city'],
+            state=request.POST['state'],
+            pincode=request.POST['pincode']
+        )
 
-            item.product.stock -= item.quantity
-            item.product.save()
+        order.complete = True
+        order.save()
 
-    order.complete = True
-    order.save()
+        return redirect('thank_you')
 
-    return redirect('my_orders')
+    # GET request should only show checkout page
+    context = {
+        'order': order,
+        'profile': profile
+    }
 
+    return render(
+        request,
+        'checkout.html',
+        context
+    )
 def add_review(request, pk):
 
     product = Product.objects.get(
@@ -304,4 +332,11 @@ def add_review(request, pk):
     return redirect(
         'product_detail',
         pk=pk
+    )
+
+
+def thank_you(request):
+    return render(
+        request,
+        'thank_you.html'
     )

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow p-4">
+
+        <h2 class="mb-4">
+            Checkout
+        </h2>
+
+        <h4>
+            Order Total:
+            ₹{{ order.get_cart_total }}
+        </h4>
+
+        <hr>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <input
+                type="text"
+                name="full_name"
+                class="form-control mb-3"
+                value="{{ request.user.username }}"
+                placeholder="Full Name"
+                required>
+
+            <input
+                type="text"
+                name="phone"
+                class="form-control mb-3"
+                value="{{ profile.phone }}"
+                placeholder="Phone Number"
+                required>
+
+            <textarea
+                name="address"
+                class="form-control mb-3"
+                placeholder="Address"
+                required>{{ profile.address }}</textarea>
+
+            <input
+                type="text"
+                name="city"
+                class="form-control mb-3"
+                value="{{ profile.city }}"
+                placeholder="City"
+                required>
+
+            <input
+                type="text"
+                name="state"
+                class="form-control mb-3"
+                value="{{ profile.state }}"
+                placeholder="State"
+                required>
+
+            <input
+                type="text"
+                name="pincode"
+                class="form-control mb-3"
+                value="{{ profile.pincode }}"
+                placeholder="Pincode"
+                required>
+
+            <h5>
+                Payment Method
+            </h5>
+
+            <select
+                name="payment_method"
+                class="form-select mb-4">
+
+                <option value="COD">
+                    Cash On Delivery
+                </option>
+
+                <option value="UPI">
+                    UPI
+                </option>
+
+            </select>
+
+            <button
+                class="btn btn-success btn-lg w-100">
+
+                Place Order
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
