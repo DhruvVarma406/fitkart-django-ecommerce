@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+
+{% for product in products %}
+
+<div class="col-md-4 mb-4">
+
+    <div class="card shadow h-100">
+
+        {% if product.image %}
+        <img src="{{ product.image.url }}"
+             class="card-img-top"
+             style="height:250px; object-fit:cover;">
+        {% endif %}
+
+        <div class="card-body">
+
+            <h4>{{ product.name }}</h4>
+            <p>
+                Category:
+                <a href="{% url 'category_products' product.category.name %}">
+                    {{ product.category.name }}
+                </a>
+            </p>
+             <h5 class="text-success">
+                ₹{{ product.price }}
+            </h5>
+            
+            <p class="text-muted">
+                {{ product.description|truncatewords:15 }}
+            </p>
+
+            <a href="{% url 'product_detail' product.id %}"
+               class="btn btn-success">
+                View Product
+            </a>
+
+           {% if product.stock > 0 %}
+
+           <a href="{% url 'add_to_cart' product.id %}"
+                class="btn btn-primary">
+                    Add To Cart
+           </a>
+
+                <p class="text-success mt-2">
+                    In Stock: {{ product.stock }}
+                </p>
+
+                {% else %}
+
+                <button class="btn btn-danger" disabled>
+                    Out Of Stock
+                </button>
+
+{% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% empty %}
+
+<h3 class="text-center mt-5">
+    No Products Found
+</h3>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

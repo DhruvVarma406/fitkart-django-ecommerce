@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-5">
+
+        <div class="card shadow-lg border-0">
+
+            <div class="card-header bg-primary text-white text-center">
+                <h2>Create Account</h2>
+                <p class="mb-0">Join FITKART today</p>
+            </div>
+
+            <div class="card-body p-4">
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <input type="text"
+                           name="username"
+                           placeholder="Username"
+                           class="form-control mb-3">
+
+                    <input type="email"
+                           name="email"
+                           placeholder="Email"
+                           class="form-control mb-3">
+
+                    <input type="password"
+                           name="password"
+                           placeholder="Password"
+                           class="form-control mb-3">
+
+                    <input type="text"
+                           name="phone"
+                           placeholder="Phone Number"
+                           class="form-control mb-3">
+
+                    <textarea name="address"
+                              placeholder="Address"
+                              class="form-control mb-3"></textarea>
+
+                    <input type="text"
+                           name="city"
+                           placeholder="City"
+                           class="form-control mb-3">
+
+                    <input type="text"
+                           name="state"
+                           placeholder="State"
+                           class="form-control mb-3">
+
+                    <input type="text"
+                           name="pincode"
+                           placeholder="Pincode"
+                           class="form-control mb-3">
+
+                    <button class="btn btn-primary w-100">
+                        Register
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

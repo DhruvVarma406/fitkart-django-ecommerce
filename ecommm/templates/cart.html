@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="mb-4">My Cart</h1>
+
+{% for item in items %}
+
+<div class="card mb-3 shadow">
+
+<div class="card-body">
+
+    <div class="row align-items-center">
+
+        <div class="col-md-3">
+
+            {% if item.product.image %}
+            <img src="{{ item.product.image.url }}"
+                 class="img-fluid rounded"
+                 style="height:120px; object-fit:cover;">
+            {% endif %}
+
+        </div>
+
+        <div class="col-md-3">
+
+            <h4>{{ item.product.name }}</h4>
+
+            <p>₹{{ item.product.price }}</p>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <a href="{% url 'update_item' item.product.id 'add' %}"
+               class="btn btn-success">
+                +
+            </a>
+
+            <span class="mx-3">
+                {{ item.quantity }}
+            </span>
+
+            <a href="{% url 'update_item' item.product.id 'remove' %}"
+               class="btn btn-danger">
+                -
+            </a>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <h5>
+                ₹{{ item.get_total }}
+            </h5>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+<div class="card shadow">
+
+<div class="card-body">
+
+    <h2>
+        Grand Total:
+        ₹{{ order.get_cart_total }}
+    </h2>
+
+</div>
+<a href="{% url 'checkout' %}"
+   class="btn btn-success btn-lg">
+    Place Order
+</a>
+</div>
+
+{% endblock %}
