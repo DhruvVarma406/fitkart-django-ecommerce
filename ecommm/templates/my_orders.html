@@ -2,53 +2,191 @@
 
 {% block content %}
 
-<h1 class="mb-4">My Orders</h1>
+<style>
+
+.order-card{
+    border:none;
+    border-radius:15px;
+    transition:.3s;
+}
+
+.order-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 12px 25px rgba(0,0,0,.12);
+}
+
+.order-header{
+    background:linear-gradient(135deg,#0d6efd,#0dcaf0);
+    color:white;
+    border-radius:15px 15px 0 0;
+    padding:18px;
+}
+
+.product-img{
+    width:90px;
+    height:90px;
+    object-fit:contain;
+    background:#fff;
+    border-radius:10px;
+    border:1px solid #ddd;
+    padding:8px;
+}
+
+.product-row{
+    border-bottom:1px solid #eee;
+    padding:15px 0;
+}
+
+.product-row:last-child{
+    border-bottom:none;
+}
+
+.order-status{
+    font-weight:600;
+    color:#198754;
+}
+
+.empty-order{
+    text-align:center;
+    padding:80px 20px;
+}
+
+.empty-order i{
+    font-size:80px;
+    color:#6c757d;
+}
+
+.empty-order h2{
+    margin-top:20px;
+}
+
+</style>
+
+<div class="container mt-4">
+
+<h2 class="fw-bold mb-4">
+📦 My Orders
+</h2>
+
+{% if orders %}
 
 {% for order in orders %}
 
-<div class="card mb-4 shadow">
+<div class="card order-card shadow mb-4">
 
-    <div class="card-header">
+<div class="order-header d-flex justify-content-between align-items-center">
 
-        <h4>Order #{{ order.id }}</h4>
+<div>
 
-    </div>
+<h5 class="mb-1">
+Order #{{ order.id }}
+</h5>
 
-    <div class="card-body">
-
-        <p>
-            <strong>Date:</strong>
-            {{ order.date_ordered }}
-        </p>
-
-        <h5>Products:</h5>
-
-        <ul>
-
-        {% for item in order.orderitem_set.all %}
-
-            <li>
-                {{ item.product.name }}
-                ×
-                {{ item.quantity }}
-            </li>
-
-        {% endfor %}
-
-        </ul>
-
-    </div>
+<small>
+{{ order.date_ordered }}
+</small>
 
 </div>
 
-{% empty %}
+<span class="badge bg-success fs-6">
+Delivered
+</span>
 
-<div class="alert alert-warning">
+</div>
 
-    No Orders Found
+<div class="card-body">
+
+{% for item in order.orderitem_set.all %}
+
+<div class="row align-items-center product-row">
+
+<div class="col-md-2 text-center">
+
+{% if item.product.image %}
+<img src="{{ item.product.image.url }}"
+class="product-img">
+{% endif %}
+
+</div>
+
+<div class="col-md-4">
+
+<h5 class="mb-1">
+{{ item.product.name }}
+</h5>
+
+<p class="text-muted mb-0">
+Quantity :
+<strong>{{ item.quantity }}</strong>
+</p>
+
+</div>
+
+<div class="col-md-3">
+
+<h5 class="text-success">
+₹{{ item.product.price }}
+</h5>
+
+</div>
+
+<div class="col-md-3 text-end">
+
+<h5 class="fw-bold">
+₹{{ item.get_total }}
+</h5>
+
+</div>
 
 </div>
 
 {% endfor %}
+
+<hr>
+
+<div class="d-flex justify-content-between">
+
+<h5>
+Total Amount
+</h5>
+
+<h4 class="text-success">
+₹{{ order.get_cart_total }}
+</h4>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<div class="card shadow">
+
+<div class="empty-order">
+
+<i class="bi bi-bag-x"></i>
+
+<h2>No Orders Yet</h2>
+
+<p class="text-muted">
+Looks like you haven't placed any orders.
+</p>
+
+<a href="{% url 'home' %}"
+class="btn btn-primary btn-lg mt-3">
+Continue Shopping
+</a>
+
+</div>
+
+</div>
+
+{% endif %}
+
+</div>
 
 {% endblock %}
